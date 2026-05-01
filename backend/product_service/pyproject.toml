@@ -10,5 +10,10 @@ dependencies = [
 [dependency-groups]
 dev = [
     "aws-lambda-powertools[aws-sdk]>=3.28.0",
+    "pytest>=9.0.3",
     "ruff>=0.15.12",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"] 
