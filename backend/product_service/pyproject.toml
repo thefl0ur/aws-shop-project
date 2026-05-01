@@ -1,0 +1,14 @@
+[project]
+name = "product-service"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "aws-lambda-powertools>=3.28.0",
+    "pydantic>=2.13.3",
+]
+
+[dependency-groups]
+dev = [
+    "aws-lambda-powertools[aws-sdk]>=3.28.0",
+    "ruff>=0.15.12",
+]
