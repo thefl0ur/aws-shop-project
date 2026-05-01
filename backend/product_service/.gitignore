@@ -1,2 +1,5 @@
 **/*.pyc
 .python-version
+
+# build time
+src/requirements.txt
