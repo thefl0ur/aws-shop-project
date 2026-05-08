@@ -6,20 +6,21 @@ from aws_lambda_powertools.event_handler.api_gateway import Router
 
 from pydantic import ValidationError
 
-from shared.service import product_service
+from shared.service import get_product_service
 from shared.model import ProductCreate
 
 router = Router()
 
 
 @router.post("/products")
-def get_product(product_data: dict):
+def create_product(product_data: dict):
     try:
         product = ProductCreate.model_validate(product_data)
     except ValidationError:
         raise BadRequestError("Invalid product data")
 
     try:
+        product_service = get_product_service()
         product_service.create(product)
     except Exception:
         raise InternalServerError("Failed to save product")

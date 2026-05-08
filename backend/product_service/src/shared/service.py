@@ -57,4 +57,12 @@ class ProductService:
         )
 
 
-product_service = ProductService(dynamodb_client, dynamodb_resource)
+_product_service = None
+
+
+def get_product_service() -> ProductService:
+    global _product_service
+    if not _product_service:
+        _product_service = ProductService(dynamodb_client, dynamodb_resource)
+
+    return _product_service

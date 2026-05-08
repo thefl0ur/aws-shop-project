@@ -4,7 +4,7 @@ from aws_lambda_powertools.event_handler.exceptions import (
 )
 from aws_lambda_powertools.event_handler.api_gateway import Router
 
-from shared.service import product_service
+from shared.service import get_product_service
 
 
 router = Router()
@@ -13,6 +13,7 @@ router = Router()
 @router.get("/products/<product_id>")
 def get_product(product_id: str):
     try:
+        product_service = get_product_service()
         product = product_service.get_by_id(product_id)
     except Exception:
         raise InternalServerError("Failed to get data")
