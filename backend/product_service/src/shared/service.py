@@ -5,6 +5,7 @@ from boto3.dynamodb.types import TypeSerializer
 from shared.clients import dynamodb_client, dynamodb_resource
 from shared.model import ProductWithStock, ProductCreate
 
+
 class ProductService:
     def __init__(self, client, resource):
         self._resource = resource
@@ -19,13 +20,9 @@ class ProductService:
 
     def get_all(self) -> list[ProductWithStock]:
         products = self._products_table.scan()["Items"]
-        stocks = {
-            x["product_id"]: x for x in self._stocks_table.scan()["Items"]
-        }
+        stocks = {x["product_id"]: x for x in self._stocks_table.scan()["Items"]}
         return [
-            ProductWithStock(
-                **product, count=stocks.get(product["id"])["count"]
-            )
+            ProductWithStock(**product, count=stocks.get(product["id"])["count"])
             for product in products
             if product["id"] in stocks
         ]
@@ -45,18 +42,14 @@ class ProductService:
                 {
                     "Put": {
                         "TableName": self._products_table.name,
-                        "Item": self._serialize(
-                            product_data.to_product().model_dump()
-                        ),
+                        "Item": self._serialize(product_data.to_product().model_dump()),
                         "ConditionExpression": "attribute_not_exists(product_id)",
                     }
                 },
                 {
                     "Put": {
                         "TableName": self._stocks_table.name,
-                        "Item": self._serialize(
-                            product_data.to_stock().model_dump()
-                        ),
+                        "Item": self._serialize(product_data.to_stock().model_dump()),
                         "ConditionExpression": "attribute_not_exists(product_id)",
                     }
                 },

@@ -1,4 +1,7 @@
-from aws_lambda_powertools.event_handler.api_gateway import APIGatewayRestResolver, CORSConfig
+from aws_lambda_powertools.event_handler.api_gateway import (
+    APIGatewayRestResolver,
+    CORSConfig,
+)
 
 from get_by_id.routes import router
 

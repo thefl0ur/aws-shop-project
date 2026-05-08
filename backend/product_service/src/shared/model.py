@@ -15,6 +15,7 @@ class StockModel(BaseModel):
     product_id: str
     count: int = Field(ge=0)
 
+
 class ProductWithStock(ProductModel):
     count: int = Field(ge=0)
 
@@ -31,7 +32,7 @@ class ProductCreate(BaseModel):
             id=self.id,
             title=self.title,
             description=self.description,
-            price=self.price
+            price=self.price,
         )
 
     def to_stock(self) -> StockModel:
@@ -39,4 +40,3 @@ class ProductCreate(BaseModel):
             product_id=self.id,
             count=self.count,
         )
-

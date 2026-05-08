@@ -1,4 +1,7 @@
-from aws_lambda_powertools.event_handler.exceptions import InternalServerError, NotFoundError
+from aws_lambda_powertools.event_handler.exceptions import (
+    InternalServerError,
+    NotFoundError,
+)
 from aws_lambda_powertools.event_handler.api_gateway import Router
 
 from shared.service import product_service
