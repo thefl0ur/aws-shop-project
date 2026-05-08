@@ -13,3 +13,8 @@ class ProductModel(BaseModel):
 class StockModel(BaseModel):
     product_id: str
     count: int = Field(ge=0)
+
+class ProductWithStock(ProductModel):
+    count: int = Field(ge=0)
+
+

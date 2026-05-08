@@ -1,0 +1,37 @@
+import os
+
+
+from shared.clients import dynamodb_client, dynamodb_resource
+from shared.model import ProductWithStock
+
+class ProductService:
+    def __init__(self, client, resource):
+        self._resource = resource
+        self._products_table = resource.Table(os.environ["PRODUCTS_TABLE"])
+        self._stocks_table = resource.Table(os.environ["STOCKS_TABLE"])
+
+        self._client = client
+    def get_all(self) -> list[ProductWithStock]:
+        products = self._products_table.scan()["Items"]
+        stocks = {
+            x["product_id"]: x for x in self._stocks_table.scan()["Items"]
+        }
+        return [
+            ProductWithStock(
+                **product, count=stocks.get(product["id"])["count"]
+            )
+            for product in products
+            if product["id"] in stocks
+        ]
+
+    def get_by_id(self, product_id: str) -> ProductWithStock | None:
+        product = self._products_table.get_item(Key={"id": product_id}).get("Item")
+        stock = self._stocks_table.get_item(Key={"product_id": product_id}).get("Item")
+
+        if not product:
+            return None
+
+        return ProductWithStock(**product, count=stock["count"])
+
+
+product_service = ProductService(dynamodb_client, dynamodb_resource)
