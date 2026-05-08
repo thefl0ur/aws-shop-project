@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     aws_access_key_id: str
     aws_secret_access_key: str
     region: str = "eu-central-1"
+    dynamodb_endpoint: str | None = None
 
 
 settings = Settings(_env_file="../.env")
@@ -41,6 +42,7 @@ dynamodb = session.resource(
     aws_access_key_id=settings.aws_access_key_id,
     aws_secret_access_key=settings.aws_secret_access_key,
     region_name=settings.region,
+    endpoint_url=settings.dynamodb_endpoint,
 )
 
 products_table = dynamodb.Table("Product")
