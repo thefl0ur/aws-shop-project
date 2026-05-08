@@ -1,0 +1,4 @@
+name: aws
+variables:
+  - name: base_url
+    value: https://ivdcs22q08.execute-api.eu-central-1.amazonaws.com/prod
