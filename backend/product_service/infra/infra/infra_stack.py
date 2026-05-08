@@ -45,10 +45,28 @@ class InfraStack(Stack):
             },
         )
 
+        create_product = PythonFunction(
+            self,
+            "createProduct",
+            function_name="createProduct", 
+            entry="../src",
+            runtime=_lambda.Runtime.PYTHON_3_12,
+            index="create/main.py",
+            handler="handler",
+            environment={
+                "PRODUCTS_TABLE": products_table.table_name,
+                "STOCKS_TABLE": stocks_table.table_name,
+                "DYNAMODB_ENDPOINT": ""
+            },
+        )
+
         products_table.grant_read_write_data(get_products_list)
         products_table.grant_read_write_data(get_products_by_id)
+        products_table.grant_read_write_data(create_product)
+
         stocks_table.grant_read_write_data(get_products_list)
         stocks_table.grant_read_write_data(get_products_by_id)
+        stocks_table.grant_read_write_data(create_product)
 
         api = apigw.RestApi(
             self,
@@ -62,6 +80,9 @@ class InfraStack(Stack):
         products_resource = api.root.add_resource("products")
         products_resource.add_method(
             "GET", apigw.LambdaIntegration(get_products_list)
+        )
+        products_resource.add_method(
+            "POST", apigw.LambdaIntegration(create_product)
         )
 
         product_by_id = products_resource.add_resource("{productId}")
