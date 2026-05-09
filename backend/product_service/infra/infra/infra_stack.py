@@ -26,7 +26,7 @@ class InfraStack(Stack):
             environment={
                 "PRODUCTS_TABLE": products_table.table_name,
                 "STOCKS_TABLE": stocks_table.table_name,
-                "DYNAMODB_ENDPOINT": ""
+                "DYNAMODB_ENDPOINT": "",
             },
         )
 
@@ -41,7 +41,7 @@ class InfraStack(Stack):
             environment={
                 "PRODUCTS_TABLE": products_table.table_name,
                 "STOCKS_TABLE": stocks_table.table_name,
-                "DYNAMODB_ENDPOINT": ""
+                "DYNAMODB_ENDPOINT": "",
             },
         )
 
@@ -56,7 +56,7 @@ class InfraStack(Stack):
             environment={
                 "PRODUCTS_TABLE": products_table.table_name,
                 "STOCKS_TABLE": stocks_table.table_name,
-                "DYNAMODB_ENDPOINT": ""
+                "DYNAMODB_ENDPOINT": "",
             },
         )
 
