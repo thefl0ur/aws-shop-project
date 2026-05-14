@@ -7,6 +7,8 @@ paths:
     get:
       summary: Get all products
       operationId: getProducts
+      tags:
+        - Products
       responses:
         "200":
           description: List of products
@@ -16,10 +18,36 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Product"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      summary: Create a product
+      operationId: createProduct
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreate"
+      responses:
+        "200":
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid product data
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /products/{product_id}:
     get:
       summary: Get product by ID
       operationId: getProduct
+      tags:
+        - Products
       parameters:
         - name: product_id
           in: path
@@ -35,14 +63,26 @@ paths:
                 $ref: "#/components/schemas/Product"
         "404":
           description: Product not found
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 components:
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Internal server error"
   schemas:
     Product:
       type: object
       required:
         - id
         - title
-        - description
         - price
       properties:
         id:
@@ -53,3 +93,21 @@ components:
           type: string
         price:
           type: number
+          exclusiveMinimum: 0
+    ProductCreate:
+      type: object
+      required:
+        - title
+        - price
+        - count
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          exclusiveMinimum: 0
+        count:
+          type: integer
+          minimum: 0

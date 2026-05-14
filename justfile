@@ -1,4 +1,5 @@
 set dotenv-load
+workdir := `pwd`
 
 infra-init path:
     mkdir -p {{path}}/infra && cd {{path}}/infra && cdk init app --language python
@@ -21,4 +22,4 @@ infra-synt path:
     cd {{path}} && rm src/requirements.txt
 
 run-sam path:
-    cd {{path}} && sam local start-api -t infra/cdk.out/ProductServiceStack.template.json --profile $PROFILE
+    cd {{path}} && sam local start-api -t infra/cdk.out/ProductServiceStack.template.json --env-vars {{workdir}}/_dev/env.local.json --profile $PROFILE --region $REGION
