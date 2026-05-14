@@ -3,6 +3,7 @@ from aws_cdk import (
     aws_lambda as _lambda,
     aws_apigateway as apigw,
     aws_s3 as s3,
+    aws_s3_notifications as s3n,
 )
 from aws_cdk.aws_lambda_python_alpha import PythonFunction, PythonLayerVersion
 
@@ -55,4 +56,20 @@ class InfraStack(Stack):
             "GET",
             apigw.LambdaIntegration(import_products_file),
             request_parameters={"method.request.querystring.name": True},
+        )
+
+        import_file_parser = PythonFunction(
+            self,
+            "ParserHandler",
+            function_name="importFileParser",
+            entry="services/import_file_parser",
+            runtime=_lambda.Runtime.PYTHON_3_12,
+            index="main.py",
+            handler="handler",
+        )
+        bucket.grant_read_write(import_file_parser)
+        bucket.add_event_notification(
+            s3.EventType.OBJECT_CREATED,
+            s3n.LambdaDestination(import_file_parser),
+            s3.NotificationKeyFilter(prefix="uploaded/"),
         )
