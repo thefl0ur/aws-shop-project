@@ -1,0 +1,25 @@
+[project]
+name = "import-service-workspace"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "aws-cdk-lib>=2.248.0,<3.0.0",
+    "constructs>=10.5.0,<11.0.0",
+    "aws-cdk.aws-lambda-python-alpha==2.252.0a0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["services/*" ]
+
+[dependency-groups]
+dev = [
+    "moto[s3]>=5.0.0",
+    "pytest>=9.0.3",
+    "ruff>=0.15.12",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
