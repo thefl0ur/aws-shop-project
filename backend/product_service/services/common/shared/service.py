@@ -1,9 +1,8 @@
 import os
 
 from boto3.dynamodb.types import TypeSerializer
-
 from shared.clients import dynamodb_client, dynamodb_resource
-from shared.model import ProductWithStock, ProductCreate
+from shared.model import ProductCreate, ProductWithStock
 
 
 class ProductService:

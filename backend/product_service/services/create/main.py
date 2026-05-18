@@ -1,13 +1,12 @@
-from aws_lambda_powertools.event_handler.exceptions import (
-    InternalServerError,
-    BadRequestError,
-)
 from aws_lambda_powertools.event_handler.api_gateway import Router
-
+from aws_lambda_powertools.event_handler.exceptions import (
+    BadRequestError,
+    InternalServerError,
+)
 from pydantic import ValidationError
-
-from shared.service import get_product_service
+from shared.create_handler import create_handler
 from shared.model import ProductCreate
+from shared.service import get_product_service
 
 router = Router()
 
@@ -26,3 +25,6 @@ def create_product(product_data: dict):
         raise InternalServerError("Failed to save product")
 
     return product.model_dump()
+
+
+handler = create_handler(router)

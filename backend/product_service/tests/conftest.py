@@ -1,10 +1,18 @@
 import os
+import sys
+from pathlib import Path
 
 import pytest
 
 os.environ["PRODUCTS_TABLE"] = "Product"
 os.environ["STOCKS_TABLE"] = "Stock"
 os.environ["DYNAMODB_ENDPOINT"] = "http://localhost:8000"
+
+SERVICES_DIR = Path(__file__).parent.parent / "services"
+COMMON_PATH = str(SERVICES_DIR / "common")
+
+if COMMON_PATH not in sys.path:
+    sys.path.insert(0, COMMON_PATH)
 
 
 @pytest.fixture

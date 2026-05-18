@@ -1,5 +1,5 @@
 {
-  "app": ".venv/bin/python app.py", 
+  "app": "python3 infra/app.py", 
   "watch": {
     "include": [
       "**"
