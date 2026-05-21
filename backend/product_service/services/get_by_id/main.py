@@ -1,11 +1,10 @@
+from aws_lambda_powertools.event_handler.api_gateway import Router
 from aws_lambda_powertools.event_handler.exceptions import (
     InternalServerError,
     NotFoundError,
 )
-from aws_lambda_powertools.event_handler.api_gateway import Router
-
+from shared.create_handler import create_handler
 from shared.service import get_product_service
-
 
 router = Router()
 
@@ -22,3 +21,6 @@ def get_product(product_id: str):
         raise NotFoundError(f"Product '{product_id}' not found")
 
     return product.model_dump()
+
+
+handler = create_handler(router)

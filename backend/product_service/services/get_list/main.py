@@ -1,6 +1,6 @@
 from aws_lambda_powertools.event_handler.api_gateway import Router
 from aws_lambda_powertools.event_handler.exceptions import InternalServerError
-
+from shared.create_handler import create_handler
 from shared.service import get_product_service
 
 router = Router()
@@ -13,3 +13,6 @@ def get_products():
         return [x.model_dump() for x in product_service.get_all()]
     except Exception as e:
         raise InternalServerError(str(e))
+
+
+handler = create_handler(router)

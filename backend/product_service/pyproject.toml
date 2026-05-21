@@ -1,20 +1,37 @@
 [project]
-name = "product-service"
+name = "product-service-workspace"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "aws-lambda-powertools>=3.28.0",
-    "pydantic>=2.13.3",
+    "aws-cdk-lib>=2.248.0,<3.0.0",
+    "constructs>=10.5.0,<11.0.0",
+    "aws-lambda-powertools[parser]>=3.28.0",
+    "aws-cdk.aws-lambda-python-alpha==2.252.0a0",
 ]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["services/*" ]
 
 [dependency-groups]
 dev = [
-    "aws-lambda-powertools[aws-sdk]>=3.28.0",
-    "moto[dynamodb]>=5.0.0",
+    "moto[dynamodb, s3]>=5.0.0",
+    "poethepoet>=0.46.0",
     "pytest>=9.0.3",
     "ruff>=0.15.12",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"] 
+pythonpath = ["services"] 
+
+[tool.poe]
+envfile = ".env"
+
+[tool.poe.tasks]
+deploy = "cdk deploy --profile $PROFILE --require-approval never --verbose --method=direct"
+bootstrap = "cdk bootstrap --profile $PROFILE"
+destroy = "cdk destroy --profile $PROFILE --force"
+login = "aws login --profile $PROFILE"

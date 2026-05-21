@@ -33,8 +33,8 @@ def test_service_not_found(product_service):
 
 
 def test_not_found_error(product_service):
-    from get_by_id.routes import get_product
+    from get_by_id.main import get_product
 
-    with patch("get_by_id.routes.get_product_service", return_value=product_service):
+    with patch("get_by_id.main.get_product_service", return_value=product_service):
         with pytest.raises(NotFoundError):
             get_product("nonexistent-id")

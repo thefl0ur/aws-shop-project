@@ -1,0 +1,11 @@
+[project]
+name = "product-service-create"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "aws-lambda-powertools[parser]>=3.28.0",
+    "boto3>=1.43.6",
+]
+
+[tool.uv.sources]
+product-service-create = { workspace = true }

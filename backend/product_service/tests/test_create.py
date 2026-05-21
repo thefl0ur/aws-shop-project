@@ -73,9 +73,9 @@ def test_create_success(product_service):
 
 
 def test_internal_error(product_service):
-    from create.routes import create_product
+    from create.main import create_product
 
-    with patch("create.routes.get_product_service", return_value=product_service):
+    with patch("create.main.get_product_service", return_value=product_service):
         with patch.object(
             product_service, "create", side_effect=RuntimeError("DB error")
         ):
