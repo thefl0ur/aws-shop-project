@@ -18,6 +18,7 @@ members = ["services/*" ]
 [dependency-groups]
 dev = [
     "moto[dynamodb, s3]>=5.0.0",
+    "poethepoet>=0.46.0",
     "pytest>=9.0.3",
     "ruff>=0.15.12",
 ]
@@ -25,3 +26,12 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["services"] 
+
+[tool.poe]
+envfile = ".env"
+
+[tool.poe.tasks]
+deploy = "cdk deploy --profile $PROFILE --require-approval never --verbose --method=direct"
+bootstrap = "cdk bootstrap --profile $PROFILE"
+destroy = "cdk destroy --profile $PROFILE --force"
+login = "aws login --profile $PROFILE"

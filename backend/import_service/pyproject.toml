@@ -17,9 +17,19 @@ members = ["services/*" ]
 [dependency-groups]
 dev = [
     "moto[s3]>=5.0.0",
+    "poethepoet>=0.46.0",
     "pytest>=9.0.3",
     "ruff>=0.15.12",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.poe]
+envfile = ".env"
+
+[tool.poe.tasks]
+deploy = "cdk deploy --profile $PROFILE -c bucket_name=$BUCKET_NAME --require-approval never --verbose --method=direct"
+bootstrap = "cdk bootstrap --profile $PROFILE"
+destroy = "cdk destroy --profile $PROFILE --force"
+login = "aws login --profile $PROFILE"
