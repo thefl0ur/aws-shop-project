@@ -1,0 +1,7 @@
+[project]
+name = "import-products-file"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.uv.sources]
+import-products-file = { workspace = true }

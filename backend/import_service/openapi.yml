@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: Import Service API
+  version: 1.0.0
+paths:
+  /import:
+    get:
+      summary: Get a presigned URL for uploading a CSV file
+      operationId: importProductsFile
+      tags:
+        - Import
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Name of the CSV file to upload
+          example: products.csv
+      responses:
+        "200":
+          description: Presigned URL for uploading
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: uri
+                example: "https://bucket.s3.eu-central-1.amazonaws.com/uploaded/products.csv?X-Amz-Signature=..."
+        "400":
+          description: Missing 'name' query parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Missing 'name' query parameter"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+components:
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Internal server error"
