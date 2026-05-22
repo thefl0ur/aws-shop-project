@@ -35,3 +35,6 @@ deploy = "cdk deploy --profile $PROFILE --require-approval never --verbose --met
 bootstrap = "cdk bootstrap --profile $PROFILE"
 destroy = "cdk destroy --profile $PROFILE --force"
 login = "aws login --profile $PROFILE"
+
+lint = "uv run ruff check --fix ."
+format = "uv run ruff format ."
