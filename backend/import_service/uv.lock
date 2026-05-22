@@ -411,6 +411,12 @@ source = { virtual = "services/import_products_file" }
 name = "import-products-parser"
 version = "0.1.0"
 source = { virtual = "services/import_file_parser" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.13.4" }]
 
 [[package]]
 name = "import-service-workspace"

@@ -12,7 +12,6 @@ from shared.model import ProductCreate
 from shared.service import get_product_service
 
 logger = Logger()
-sns_client = boto3.client("sns")
 
 processor = BatchProcessor(event_type=EventType.SQS)
 

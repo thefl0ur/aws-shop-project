@@ -10,6 +10,7 @@ from stacks.import_product_stack import InfraStack
 packages = {
     "import-products-file": "services/import_products_file",
     "import-products-common": "services/common",
+    "import-products-parser": "services/import_file_parser",
 }
 
 for pkg_name, path in packages.items():
