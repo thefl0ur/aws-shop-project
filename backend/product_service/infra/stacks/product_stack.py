@@ -7,6 +7,8 @@ from aws_cdk import (
     aws_sqs as sqs,
     Duration,
     aws_lambda_event_sources as lambda_events,
+    aws_sns as sns,
+    aws_sns_subscriptions as subscriptions,
 )
 from aws_cdk.aws_lambda_python_alpha import PythonFunction, PythonLayerVersion
 from constructs import Construct
@@ -29,6 +31,23 @@ class InfraStack(Stack):
             "CatalogItemsQueue",
             queue_name="catalogItemsQueue",
             visibility_timeout=Duration.seconds(30),
+        )
+
+        topic = sns.Topic(self, "CreateProductTopic", topic_name="createProductTopic")
+
+        main_email = self.node.try_get_context("main_email")
+        topic.add_subscription(subscriptions.EmailSubscription(main_email))
+
+        filtered_email = self.node.try_get_context("different_email")
+        topic.add_subscription(
+            subscriptions.EmailSubscription(
+                filtered_email,
+                filter_policy={
+                    "count": sns.SubscriptionFilter.numeric_filter(
+                        less_than_or_equal_to=1
+                    )
+                },
+            )
         )
 
         products_table = dynamodb.Table.from_table_name(self, "Product", "Product")
@@ -94,6 +113,7 @@ class InfraStack(Stack):
                 "PRODUCTS_TABLE": products_table.table_name,
                 "STOCKS_TABLE": stocks_table.table_name,
                 "DYNAMODB_ENDPOINT": "",
+                "SNS_TOPIC_ARN": topic.topic_arn,
             },
             layers=[common],
         )
@@ -106,6 +126,8 @@ class InfraStack(Stack):
                 report_batch_item_failures=True,
             )
         )
+
+        topic.grant_publish(catalog_batch_process)
 
         products_table.grant_read_write_data(get_products_list)
         products_table.grant_read_write_data(get_products_by_id)

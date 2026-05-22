@@ -31,7 +31,8 @@ pythonpath = ["services"]
 envfile = ".env"
 
 [tool.poe.tasks]
-deploy = "cdk deploy --profile $PROFILE --require-approval never --verbose --method=direct"
+deploy = "cdk deploy --profile $PROFILE -c main_email=$MAIN_EMAIL -c different_email=$DIFERENT_EMAIL --require-approval never --verbose --method=direct"
+synth = "cdk synth --profile $PROFILE -c main_email=$MAIN_EMAIL -c different_email=$DIFERENT_EMAIL --require-approval never --verbose --method=direct"
 bootstrap = "cdk bootstrap --profile $PROFILE"
 destroy = "cdk destroy --profile $PROFILE --force"
 login = "aws login --profile $PROFILE"
