@@ -23,6 +23,8 @@ dev = [
 envfile = ".env"
 
 [tool.poe.tasks]
+deploy = "cdk deploy --profile $PROFILE -c test_user=$TEST_USER -c test_password=$TEST_PASSWORD --require-approval never --verbose --method=direct"
+synth = "cdk synth --profile $PROFILE -c test_user=$TEST_USER -c test_password=$TEST_PASSWORD"
 bootstrap = "cdk bootstrap --profile $PROFILE"
 destroy = "cdk destroy --profile $PROFILE --force"
 login = "aws login --profile $PROFILE"
