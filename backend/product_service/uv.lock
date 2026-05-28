@@ -4,6 +4,7 @@ requires-python = ">=3.12"
 
 [manifest]
 members = [
+    "product-service-catalog",
     "product-service-common",
     "product-service-create",
     "product-service-get-by-id",
@@ -579,6 +580,21 @@ wheels = [
 ]
 
 [[package]]
+name = "product-service-catalog"
+version = "0.1.0"
+source = { virtual = "services/catalog" }
+dependencies = [
+    { name = "aws-lambda-powertools", extra = ["parser"] },
+    { name = "boto3" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "aws-lambda-powertools", extras = ["parser"], specifier = ">=3.28.0" },
+    { name = "boto3", specifier = ">=1.43.6" },
+]
+
+[[package]]
 name = "product-service-common"
 version = "0.1.0"
 source = { virtual = "services/common" }
@@ -669,7 +685,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "moto", extras = ["dynamodb", "s3"], specifier = ">=5.0.0" },
+    { name = "moto", extras = ["dynamodb", "s3", "sns", "sqs"], specifier = ">=5.0.0" },
     { name = "poethepoet", specifier = ">=0.46.0" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "ruff", specifier = ">=0.15.12" },

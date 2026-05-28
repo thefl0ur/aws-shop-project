@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_apigateway as apigw,
     aws_s3 as s3,
     aws_s3_notifications as s3n,
+    aws_sqs as sqs,
 )
 from aws_cdk.aws_lambda_python_alpha import PythonFunction, PythonLayerVersion
 
@@ -73,3 +74,7 @@ class InfraStack(Stack):
             s3n.LambdaDestination(import_file_parser),
             s3.NotificationKeyFilter(prefix="uploaded/"),
         )
+
+        queue_arn = self.node.try_get_context("queue_arn")
+        queue = sqs.Queue.from_queue_arn(self, "catalogItemsQueue", queue_arn)
+        queue.grant_send_messages(import_file_parser)

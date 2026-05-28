@@ -33,4 +33,3 @@ def test_get_empty_list(product_service):
 def test_get_all(product_service, sample_products):
     result = product_service.get_all()
     assert len(result) == 2
-

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 from pathlib import Path
 import subprocess
 
@@ -12,6 +11,7 @@ packages = {
     "product-service-create": "services/create",
     "product-service-get-by-id": "services/get_by_id",
     "product-service-get-list": "services/get_list",
+    "product-service-catalog": "services/catalog",
 }
 
 for pkg_name, path in packages.items():
