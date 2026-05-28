@@ -29,7 +29,7 @@ testpaths = ["tests"]
 envfile = ".env"
 
 [tool.poe.tasks]
-deploy = "cdk deploy --profile $PROFILE -c bucket_name=$BUCKET_NAME -c queue_arn=$QUERY_ARN --require-approval never --verbose --method=direct"
+deploy = "cdk deploy --profile $PROFILE -c bucket_name=$BUCKET_NAME -c queue_arn=$QUERY_ARN -c auth_arn=$AUTH_ARN --require-approval never --verbose --method=direct"
 bootstrap = "cdk bootstrap --profile $PROFILE"
 destroy = "cdk destroy --profile $PROFILE --force"
 login = "aws login --profile $PROFILE"

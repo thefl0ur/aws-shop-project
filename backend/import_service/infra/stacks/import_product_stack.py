@@ -29,6 +29,19 @@ class InfraStack(Stack):
             self.node.try_get_context("bucket_name"),
         )
 
+        authorizer_fn = _lambda.Function.from_function_arn(
+            self,
+            "importedBasicAuthorizer",
+            function_arn=self.node.try_get_context("auth_arn"),
+        )
+
+        authorizer = apigw.TokenAuthorizer(
+            self,
+            "basicTokenAuthorizer",
+            handler=authorizer_fn,
+            identity_source=apigw.IdentitySource.header("Authorization"),
+        )
+
         import_products_file = PythonFunction(
             self,
             "importProductsFile",
@@ -51,12 +64,19 @@ class InfraStack(Stack):
                 allow_methods=apigw.Cors.ALL_METHODS,
             ),
         )
+        api.add_gateway_response(
+            "Default4xx",
+            type=apigw.ResponseType.DEFAULT_4_XX,
+            response_headers={"Access-Control-Allow-Origin": "'*'"},
+        )
 
         import_products_resource = api.root.add_resource("import")
         import_products_resource.add_method(
             "GET",
             apigw.LambdaIntegration(import_products_file),
             request_parameters={"method.request.querystring.name": True},
+            authorizer=authorizer,
+            authorization_type=apigw.AuthorizationType.CUSTOM,
         )
 
         import_file_parser = PythonFunction(
