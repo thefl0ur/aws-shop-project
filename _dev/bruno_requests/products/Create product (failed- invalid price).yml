@@ -1,11 +1,11 @@
 info:
   name: "Create product (failed: invalid price)"
   type: http
-  seq: 4
+  seq: 1
 
 http:
   method: POST
-  url: "{{base_url}}/{{path}}"
+  url: "{{products_base_url}}"
   body:
     type: json
     data: |-

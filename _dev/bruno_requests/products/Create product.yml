@@ -1,19 +1,19 @@
 info:
-  name: "Create product (failed: negative qunatity)"
+  name: Create product
   type: http
-  seq: 3
+  seq: 2
 
 http:
   method: POST
-  url: "{{base_url}}/{{path}}"
+  url: "{{products_base_url}}"
   body:
     type: json
     data: |-
       {
-        "count": -1,
+        "count": 2,
         "price": 1,
-        "description": "123",
-        "title": "test"
+        "description": "description1",
+        "title": "title1"
       }
   auth: inherit
 

@@ -1,4 +1,6 @@
 name: aws
 variables:
-  - name: base_url
+  - name: products_base_url
     value: https://ivdcs22q08.execute-api.eu-central-1.amazonaws.com/prod/products/
+  - name: import_base_url
+    value: https://5o5z7d67u2.execute-api.eu-central-1.amazonaws.com/prod/
